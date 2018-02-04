@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+</head>
+<body>
+<div class="wrap center"> <!-- Just to center ver and hor -->
+  <div class="wrap-label">
+     <label for="name">Your word</label>
+     <p class="iconicfill-pen-alt2"></p>
+  </div>
+  <input type="text" id="hiddenInput" >
+</div>
+<div id="hiddenPics" style="display:none"></div>
+</body>
+<script>
+function generatePic(word){
+	var container = document.getElementById('hiddenPics');
+	for (var i = 0; i < word.length; i++) {
+		var image = document.createElement("IMG");
+		var path = "/images/" + word.charAt(i) + ".jpg";
+		image.setAttribute("class", "letter");
+		image.setAttribute("src", path);
+		image.setAttribute("id", i);
+		container.appendChild(image);
+	}
+}
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds){
+            break;
+        }
+    }
+}
+// get if the user gets the sign correctly
+function getLetterMyo(letter) {
+	sleep(1000);
+}
+
+document.getElementById("hiddenInput")
+    .addEventListener("keyup", function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+    	var text = document.getElementById("hiddenInput").value;
+        generatePic(text);
+        console.log(text);
+        document.getElementById("hiddenPics").setAttribute("style", "display:initial")
+        for (var letterPos = 0; letterPos < text.length; letterPos++) {
+        	document.getElementById(letterPos).setAttribute("class", "active");
+       		getLetterMyo(text.charAt(letterPos));
+        	document.getElementById(letterPos).setAttribute("class", "letter");
+       	}
+		sleep(1000000);
+        document.getElementById("hiddenPics").setAttribute("style", "display:none")
+    }
+
+});
+
+</script>
+</html>
